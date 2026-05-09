@@ -947,11 +947,76 @@
       margin-bottom: 56px;
     }
     .testimonials-header .section-sub { margin: 0 auto; }
+
+    /* Subtítulo en una sola línea en escritorio */
+    @media (min-width: 901px) {
+      .testimonials-header .section-sub {
+        max-width: none;
+        white-space: nowrap;
+        font-size: 15.5px;
+      }
+    }
+
     .elfsight-wrap {
       max-width: 1100px;
       margin: 0 auto;
       border-radius: var(--r-xl);
       overflow: hidden;
+    }
+
+    /* Ocultar elementos generados por el widget de Elfsight */
+    .elfsight-wrap [class*="WidgetSubtitle"],
+    .elfsight-wrap [class*="widget-subtitle"],
+    .elfsight-wrap [class*="WidgetHeader__Subtitle"],
+    .elfsight-wrap [class*="WidgetHeaderSubtitle"],
+    .elfsight-wrap [class*="-subtitle-"] {
+      display: none !important;
+    }
+    .elfsight-wrap [class*="aigc"],
+    .elfsight-wrap [class*="AIGC"],
+    .elfsight-wrap [class*="AiSummary"],
+    .elfsight-wrap [class*="AiGenerated"],
+    .elfsight-wrap [class*="ai-summary"],
+    .elfsight-wrap [class*="ReviewsAiGenerated"],
+    .elfsight-wrap [class*="SummaryCard"] {
+      display: none !important;
+    }
+    .elfsight-wrap [class*="WidgetToolbar"],
+    .elfsight-wrap [class*="widget-toolbar"],
+    .elfsight-wrap [class*="Branding"],
+    .elfsight-wrap [class*="branding"],
+    .elfsight-wrap [class*="PoweredBy"],
+    .elfsight-wrap a[href*="elfsight.com"] {
+      display: none !important;
+    }
+
+    /* Botón "Cargar menos reseñas" */
+    .load-less-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 9999px;
+      background: var(--blue);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 14px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      border: none;
+      cursor: pointer;
+      margin: 12px auto 0;
+      transition: background .25s ease, transform .25s ease;
+    }
+    .load-less-btn.show { display: inline-flex; }
+    .load-less-btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+    }
+    .load-less-wrap {
+      display: flex;
+      justify-content: center;
+      width: 100%;
     }
 
     /* =============================================
@@ -3650,6 +3715,140 @@
 </script>
 
 <script>
+  /* ---- Testimonials: ocultar elementos del widget + botón "Cargar menos reseñas" ---- */
+  (function() {
+    const widgetWrap = document.querySelector('.elfsight-wrap');
+    if (!widgetWrap) return;
+
+    let loadLessBtn = null;
+    let loadMoreBtnRef = null;
+    let initialReviewCount = 0;
+
+    /* ---- Ocultar elementos por contenido de texto ---- */
+    function hideByText() {
+      const all = widgetWrap.querySelectorAll('div, span, h1, h2, h3, h4, p, a');
+      all.forEach(el => {
+        const txt = (el.textContent || '').trim();
+        const ownTxt = (el.childNodes && Array.from(el.childNodes).filter(n => n.nodeType === 3).map(n => n.textContent.trim()).join(' ')) || '';
+
+        /* "What Our Customers Say" / variantes */
+        if (/^(what our customers say|lo que dicen nuestros clientes)$/i.test(ownTxt)) {
+          hideContainer(el);
+        }
+
+        /* Tarjeta resumen IA: "Based on N Google reviews" */
+        if (/based on \d+ google reviews/i.test(ownTxt)) {
+          const card = findCardAncestor(el);
+          if (card) card.style.display = 'none';
+        }
+
+        /* Resumen IA: bullets típicos en inglés */
+        if (/^(warm,?\s*empathetic|professional and (knowledgeable|caring)|highly recommended)/i.test(ownTxt)) {
+          const card = findCardAncestor(el);
+          if (card) card.style.display = 'none';
+        }
+
+        /* Badge "Free Google Reviews Widget" / "Powered by Elfsight" */
+        if (/(free google reviews widget|powered by elfsight|reviews? widget by elfsight)/i.test(txt) && el.children.length < 6) {
+          hideContainer(el);
+        }
+      });
+
+      /* Cualquier enlace a elfsight.com */
+      widgetWrap.querySelectorAll('a[href*="elfsight"]').forEach(a => {
+        const wrap = a.closest('div') || a;
+        wrap.style.display = 'none';
+      });
+    }
+
+    function hideContainer(el) {
+      el.style.display = 'none';
+    }
+
+    function findCardAncestor(el) {
+      let node = el;
+      for (let i = 0; i < 8 && node && node !== widgetWrap; i++) {
+        const cls = (node.className && typeof node.className === 'string') ? node.className : '';
+        if (/card|item|review|summary|aigc/i.test(cls)) return node;
+        node = node.parentElement;
+      }
+      return el.parentElement && el.parentElement.parentElement
+        ? el.parentElement.parentElement
+        : el.parentElement;
+    }
+
+    function findLoadMoreBtn() {
+      const buttons = widgetWrap.querySelectorAll('button, a[role="button"]');
+      for (const btn of buttons) {
+        const text = (btn.textContent || '').trim().toLowerCase();
+        if (text === 'load more' || text === 'cargar más' || text === 'cargar mas' ||
+            text === 'show more' || text === 'mostrar más' || text === 'mostrar mas') {
+          return btn;
+        }
+      }
+      return null;
+    }
+
+    function copyButtonStyles(source, target) {
+      const cs = window.getComputedStyle(source);
+      const props = ['fontSize', 'fontFamily', 'fontWeight', 'padding', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderRadius', 'background', 'backgroundColor', 'color', 'border', 'borderColor', 'borderWidth', 'borderStyle', 'lineHeight', 'letterSpacing', 'textTransform'];
+      props.forEach(p => { target.style[p] = cs[p]; });
+      target.style.cursor = 'pointer';
+      target.style.marginTop = '12px';
+    }
+
+    function ensureLoadLessBtn(loadMoreBtn) {
+      if (loadLessBtn && document.body.contains(loadLessBtn)) return loadLessBtn;
+      loadLessBtn = document.createElement('button');
+      loadLessBtn.id = 'loadLessBtn';
+      loadLessBtn.className = 'load-less-btn';
+      loadLessBtn.type = 'button';
+      loadLessBtn.textContent = 'Cargar menos reseñas';
+      copyButtonStyles(loadMoreBtn, loadLessBtn);
+      loadMoreBtn.parentNode.insertBefore(loadLessBtn, loadMoreBtn.nextSibling);
+      loadLessBtn.addEventListener('click', resetWidget);
+      return loadLessBtn;
+    }
+
+    function resetWidget() {
+      const appEl = widgetWrap.querySelector('[class*="elfsight-app-"]');
+      if (!appEl) return;
+      const parent = appEl.parentNode;
+      const className = appEl.className;
+      const lazy = appEl.hasAttribute('data-elfsight-app-lazy');
+      parent.removeChild(appEl);
+      const fresh = document.createElement('div');
+      fresh.className = className;
+      if (lazy) fresh.setAttribute('data-elfsight-app-lazy', '');
+      parent.appendChild(fresh);
+      if (loadLessBtn) loadLessBtn.classList.remove('show');
+      if (window.eapps && typeof window.eapps.scan === 'function') {
+        try { window.eapps.scan(); } catch (e) {}
+      }
+      const section = document.getElementById('testimonios');
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    const observer = new MutationObserver(() => {
+      hideByText();
+      const btn = findLoadMoreBtn();
+      if (btn && btn !== loadMoreBtnRef) {
+        loadMoreBtnRef = btn;
+        if (!btn.dataset.lessHandlerAttached) {
+          btn.dataset.lessHandlerAttached = 'true';
+          btn.addEventListener('click', () => {
+            const less = ensureLoadLessBtn(btn);
+            setTimeout(() => less.classList.add('show'), 400);
+          });
+        }
+      }
+    });
+    observer.observe(widgetWrap, { childList: true, subtree: true });
+    setTimeout(hideByText, 1500);
+    setTimeout(hideByText, 3000);
+    setTimeout(hideByText, 6000);
+  })();
+
   /* ---- Legal Modal ---- */
   function openLegalModal() {
     var m = document.getElementById('legalModal');
