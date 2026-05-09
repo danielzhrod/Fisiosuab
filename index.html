@@ -495,17 +495,37 @@
       align-items: center;
       overflow: hidden;
     }
-    .hero-bg {
+    .hero-panels {
       position: absolute;
       inset: 0;
-      background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=85&auto=format&fit=crop');
+      display: flex;
+    }
+    .hero-panel {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-panel + .hero-panel {
+      border-left: 1px solid rgba(255,255,255,.12);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: -8%;
       background-size: cover;
-      background-position: center 30%;
-      transform: scale(1.06);
+      background-position: center center;
+      background-repeat: no-repeat;
+      transform: scale(1.02);
       transition: transform 8s ease-out;
-      will-change: transform; /* promotes to GPU layer for smooth parallax */
+      will-change: transform;
     }
     .hero-bg.ready { transform: scale(1); }
+    #heroBg1 {
+      background-image: url('./Cabinas.png');
+      background-size: cover;
+      background-position: center center;
+    }
+    #heroBg2 { background-image: url('./Foto%20logo.png'); }
+    #heroBg3 { background-image: url('./ejercicios%20con%20pesas.png'); }
     .hero-overlay {
       position: absolute;
       inset: 0;
@@ -2222,7 +2242,17 @@
      HERO
 ============================================================ -->
 <section class="hero" id="inicio" aria-label="Sección principal">
-  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-panels" aria-hidden="true">
+    <div class="hero-panel">
+      <div class="hero-bg" id="heroBg1"></div>
+    </div>
+    <div class="hero-panel">
+      <div class="hero-bg" id="heroBg2"></div>
+    </div>
+    <div class="hero-panel">
+      <div class="hero-bg" id="heroBg3"></div>
+    </div>
+  </div>
   <div class="hero-overlay"></div>
   <div class="hero-noise" aria-hidden="true"></div>
 
@@ -2582,7 +2612,7 @@
       <div class="why-visual" data-aos="fade-left">
         <div class="why-img-wrap">
           <img
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=85&auto=format&fit=crop"
+            src="./Recepci%C3%B3n.png"
             alt="Fisioterapeuta trabajando con un paciente en FISIOSUAB"
             loading="lazy"
           >
@@ -2906,25 +2936,25 @@
     </header>
 
     <div class="gallery-grid" data-aos="fade-up" data-aos-delay="80">
-      <div class="g-item" data-lightbox="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&q=85&auto=format">
-        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80&auto=format&fit=crop" alt="Sala de tratamiento principal" loading="lazy">
-        <div class="g-over"><span>Sala principal de tratamiento</span></div>
+      <div class="g-item" data-lightbox="./Sala%20de%20Ejercicios.png">
+        <img src="./Sala%20de%20Ejercicios.png" alt="Sala de ejercicios" loading="lazy">
+        <div class="g-over"><span>Sala de ejercicios</span></div>
       </div>
-      <div class="g-item" data-lightbox="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=85&auto=format">
-        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80&auto=format&fit=crop" alt="Sesión de fisioterapia personalizada" loading="lazy">
-        <div class="g-over"><span>Fisioterapia personalizada</span></div>
+      <div class="g-item" data-lightbox="./Recepci%C3%B3n.png">
+        <img src="./Recepci%C3%B3n.png" alt="Recepción y bienvenida" loading="lazy">
+        <div class="g-over"><span>Recepción y bienvenida</span></div>
       </div>
-      <div class="g-item" data-lightbox="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1200&q=85&auto=format">
-        <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80&auto=format&fit=crop" alt="Equipamiento moderno" loading="lazy">
-        <div class="g-over"><span>Equipamiento de última generación</span></div>
+      <div class="g-item" data-lightbox="./Tecnolog%C3%ADa.png">
+        <img src="./Tecnolog%C3%ADa.png" alt="Tecnología avanzada" loading="lazy">
+        <div class="g-over"><span>Tecnología avanzada</span></div>
       </div>
-      <div class="g-item" data-lightbox="https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=1200&q=85&auto=format">
-        <img src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=600&q=80&auto=format&fit=crop" alt="Zona de rehabilitación" loading="lazy">
-        <div class="g-over"><span>Zona de rehabilitación</span></div>
-      </div>
-      <div class="g-item" data-lightbox="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1200&q=85&auto=format">
-        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80&auto=format&fit=crop" alt="Cabina privada de tratamiento" loading="lazy">
+      <div class="g-item" data-lightbox="./Cabinas.png">
+        <img src="./Cabinas.png" alt="Cabinas privadas" loading="lazy">
         <div class="g-over"><span>Cabinas privadas</span></div>
+      </div>
+      <div class="g-item" data-lightbox="./ejercicio.jpg">
+        <img src="./ejercicio.jpg" alt="Sesiones personalizadas" loading="lazy">
+        <div class="g-over"><span>Sesiones personalizadas</span></div>
       </div>
     </div>
   </div>
@@ -3252,11 +3282,12 @@
     navbar.classList.toggle('scrolled', window.scrollY > 60);
   }, { passive: true });
 
-  /* ---- Hero BG parallax + ready state ---- */
-  const heroBg = document.getElementById('heroBg');
+  /* ---- Hero panels: Ken Burns + parallax ---- */
+  const heroBgs = document.querySelectorAll('.hero-bg');
+
   const heroImg = new Image();
-  heroImg.onload = () => heroBg.classList.add('ready');
-  heroImg.src = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=85&auto=format';
+  heroImg.onload = () => heroBgs.forEach(bg => bg.classList.add('ready'));
+  heroImg.src = './ejercicio.jpg';
 
   /* Parallax: only on desktop non-reduced-motion to avoid mobile jank */
   const mqlMobile  = window.matchMedia('(max-width: 900px)');
@@ -3264,15 +3295,17 @@
   function shouldParallax() { return !mqlMobile.matches && !mqlMotion.matches; }
 
   window.addEventListener('scroll', () => {
-    if (!shouldParallax()) { heroBg.style.transform = ''; return; }
+    if (!shouldParallax()) { heroBgs.forEach(bg => bg.style.transform = ''); return; }
     const scrolled = window.scrollY;
     if (scrolled < window.innerHeight) {
-      heroBg.style.transform = `scale(1) translateY(${scrolled * 0.25}px)`;
+      heroBgs.forEach(bg => {
+        bg.style.transform = `scale(1) translateY(${scrolled * 0.25}px)`;
+      });
     }
   }, { passive: true });
 
   /* Reset parallax offset if viewport crosses mobile breakpoint */
-  mqlMobile.addEventListener('change', () => { heroBg.style.transform = ''; });
+  mqlMobile.addEventListener('change', () => { heroBgs.forEach(bg => bg.style.transform = ''); });
 
   /* ---- Mobile menu ---- */
   const hamburger = document.getElementById('hamburger');
