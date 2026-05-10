@@ -37,8 +37,6 @@
   <!-- AOS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-  <!-- Elfsight Platform (Google Reviews Widget) -->
-  <script src="https://elfsightcdn.com/platform.js" async></script>
 
   <!-- ═══ SCHEMA.ORG — Datos estructurados para Google ═══ -->
   <script type="application/ld+json">
@@ -935,89 +933,6 @@
       margin-top: 3px;
     }
 
-    /* =============================================
-       TESTIMONIALS
-    ============================================= */
-    .testimonials {
-      padding: var(--sp) 0;
-      background: var(--gray-50);
-    }
-    .testimonials-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-    .testimonials-header .section-sub { margin: 0 auto; }
-
-    /* Subtítulo en una sola línea en escritorio */
-    @media (min-width: 901px) {
-      .testimonials-header .section-sub {
-        max-width: none;
-        white-space: nowrap;
-        font-size: 15.5px;
-      }
-    }
-
-    .elfsight-wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      border-radius: var(--r-xl);
-      overflow: hidden;
-    }
-
-    /* Ocultar elementos generados por el widget de Elfsight */
-    .elfsight-wrap [class*="WidgetSubtitle"],
-    .elfsight-wrap [class*="widget-subtitle"],
-    .elfsight-wrap [class*="WidgetHeader__Subtitle"],
-    .elfsight-wrap [class*="WidgetHeaderSubtitle"],
-    .elfsight-wrap [class*="-subtitle-"] {
-      display: none !important;
-    }
-    .elfsight-wrap [class*="aigc"],
-    .elfsight-wrap [class*="AIGC"],
-    .elfsight-wrap [class*="AiSummary"],
-    .elfsight-wrap [class*="AiGenerated"],
-    .elfsight-wrap [class*="ai-summary"],
-    .elfsight-wrap [class*="ReviewsAiGenerated"],
-    .elfsight-wrap [class*="SummaryCard"] {
-      display: none !important;
-    }
-    .elfsight-wrap [class*="WidgetToolbar"],
-    .elfsight-wrap [class*="widget-toolbar"],
-    .elfsight-wrap [class*="Branding"],
-    .elfsight-wrap [class*="branding"],
-    .elfsight-wrap [class*="PoweredBy"],
-    .elfsight-wrap a[href*="elfsight.com"] {
-      display: none !important;
-    }
-
-    /* Botón "Cargar menos reseñas" */
-    .load-less-btn {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 28px;
-      border-radius: 9999px;
-      background: var(--blue);
-      color: var(--white);
-      font-weight: 600;
-      font-size: 14px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      border: none;
-      cursor: pointer;
-      margin: 12px auto 0;
-      transition: background .25s ease, transform .25s ease;
-    }
-    .load-less-btn.show { display: inline-flex; }
-    .load-less-btn:hover {
-      background: var(--blue-dark);
-      transform: translateY(-1px);
-    }
-    .load-less-wrap {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-    }
 
     /* =============================================
        LOCATION
@@ -1768,143 +1683,6 @@
       .map-wrap { position: relative; }
     }
 
-    /* =============================================
-       REVIEWS CAROUSEL (mobile/tablet only)
-    ============================================= */
-    .reviews-carousel {
-      display: none;
-    }
-    @media (max-width: 900px) {
-      .elfsight-wrap { display: none; }
-
-      .reviews-carousel {
-        display: block;
-        position: relative;
-        overflow: hidden;
-        touch-action: pan-y;
-      }
-      .rc-track {
-        display: flex;
-        transition: transform .42s cubic-bezier(.4,0,.2,1);
-        will-change: transform;
-      }
-      .rc-slide {
-        min-width: 100%;
-        padding: 4px 6px 16px;
-        box-sizing: border-box;
-      }
-      .rc-card {
-        background: var(--white);
-        border-radius: var(--r-xl);
-        padding: 28px 24px 24px;
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--gray-100);
-        position: relative;
-      }
-      .rc-header {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin-bottom: 18px;
-      }
-      .rc-avatar {
-        width: 46px; height: 46px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--blue), var(--green));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        font-weight: 700;
-        font-size: 15px;
-        color: #fff;
-        flex-shrink: 0;
-      }
-      .rc-meta { flex: 1; }
-      .rc-meta strong {
-        display: block;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        font-size: 15px;
-        font-weight: 700;
-        color: var(--text);
-        margin-bottom: 3px;
-      }
-      .rc-stars {
-        color: #C4758A;
-        font-size: 14px;
-        letter-spacing: 1px;
-      }
-      .rc-google {
-        width: 28px; height: 28px;
-        flex-shrink: 0;
-        margin-left: auto;
-      }
-      .rc-text {
-        font-size: 14.5px;
-        color: var(--text-sec);
-        line-height: 1.72;
-        margin-bottom: 14px;
-        font-style: italic;
-      }
-      .rc-date {
-        font-size: 12px;
-        color: var(--text-muted);
-      }
-
-      /* Arrows */
-      .rc-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-60%);
-        width: 44px; height: 44px;
-        background: var(--white);
-        border-radius: 50%;
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10;
-        transition: background var(--t) var(--ease), box-shadow var(--t) var(--ease);
-        cursor: pointer;
-      }
-      .rc-btn:hover { background: var(--blue); box-shadow: var(--shadow-lg); }
-      .rc-btn:hover svg { color: #fff; }
-      .rc-btn svg { width: 20px; height: 20px; color: var(--blue); transition: color var(--t) var(--ease); }
-      .rc-prev { left: -8px; }
-      .rc-next { right: -8px; }
-      .rc-btn:disabled { opacity: .35; pointer-events: none; }
-
-      /* Dots */
-      .rc-dots {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 20px;
-      }
-      .rc-dot {
-        width: 8px; height: 8px;
-        border-radius: 50%;
-        background: var(--gray-300);
-        border: none;
-        cursor: pointer;
-        transition: background var(--t) var(--ease), transform var(--t) var(--ease);
-        padding: 0;
-      }
-      .rc-dot.active {
-        background: var(--blue);
-        transform: scale(1.3);
-      }
-
-      /* Counter badge */
-      .rc-counter {
-        text-align: center;
-        font-size: 12px;
-        color: var(--text-muted);
-        margin-top: 10px;
-        font-weight: 500;
-      }
-    }
 
     /* =============================================
        COOKIE CONSENT BANNER
@@ -2492,6 +2270,26 @@
       }
       .ig-widget { max-width: 420px; margin: 0 auto; }
     }
+
+    /* =============================================
+       REVIEWS SECTION
+    ============================================= */
+    .reviews-section {
+      padding: var(--sp) 0;
+      background: #fff;
+    }
+    .reviews-section .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .reviews-section .section-sub {
+      max-width: 540px;
+      margin: 8px auto 0;
+    }
+    .elfsight-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
@@ -2532,10 +2330,10 @@
       <ul class="nav-links" role="navigation">
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#nosotros">Nosotros</a></li>
-        <li><a href="#testimonios">Testimonios</a></li>
         <li><a href="#instalaciones">Instalaciones</a></li>
         <li><a href="#ubicacion">Ubicación</a></li>
         <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#resenas">Reseñas</a></li>
         <li><a href="#instagram">Instagram</a></li>
         <li>
           <a href="tel:+34603926954" class="nav-cta-link">
@@ -2559,10 +2357,10 @@
   <button class="mobile-close" id="mobileClose" aria-label="Cerrar menú">✕</button>
   <a href="#servicios" class="mobile-link">Servicios</a>
   <a href="#nosotros" class="mobile-link">Nosotros</a>
-  <a href="#testimonios" class="mobile-link">Testimonios</a>
   <a href="#instalaciones" class="mobile-link">Instalaciones</a>
   <a href="#ubicacion" class="mobile-link">Ubicación</a>
   <a href="#contacto" class="mobile-link">Contacto</a>
+  <a href="#resenas" class="mobile-link">Reseñas</a>
   <a href="#instagram" class="mobile-link">Instagram</a>
   <a href="tel:+34603926954" class="btn btn-green" style="margin-top:8px">603 92 69 54</a>
 </div>
@@ -2965,186 +2763,6 @@
 </section>
 
 
-<!-- ============================================================
-     TESTIMONIALS
-============================================================ -->
-<section class="testimonials" id="testimonios">
-  <div class="container">
-    <header class="testimonials-header" data-aos="fade-up">
-      <span class="tag"><span class="tag-dot"></span>Testimonios</span>
-      <h2 class="section-title">Lo que dicen nuestros pacientes</h2>
-      <p class="section-sub">
-        Más de 51 reseñas con puntuación perfecta en Google. La confianza de nuestros
-        pacientes es nuestra mayor recompensa.
-      </p>
-    </header>
-
-    <div class="elfsight-wrap" data-aos="fade-up" data-aos-delay="80">
-      <div class="elfsight-app-476890d8-a926-4fa4-a8da-ca49015315c8" data-elfsight-app-lazy></div>
-    </div>
-
-    <!-- Carousel visible solo en móvil/tablet (≤900px) -->
-    <div class="reviews-carousel" id="reviewsCarousel" data-aos="fade-up" data-aos-delay="80" aria-label="Reseñas de pacientes">
-      <div class="rc-track" id="rcTrack">
-
-        <div class="rc-slide">
-          <div class="rc-card">
-            <div class="rc-header">
-              <div class="rc-avatar">MG</div>
-              <div class="rc-meta">
-                <strong>María González</strong>
-                <div class="rc-stars">★★★★★</div>
-              </div>
-              <svg class="rc-google" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-            </div>
-            <p class="rc-text">"Después de años con problemas de suelo pélvico, encontré en FISIOSUAB el trato y la profesionalidad que necesitaba. Los resultados fueron visibles desde la tercera sesión. 100% recomendable."</p>
-            <span class="rc-date">hace 1 semana</span>
-          </div>
-        </div>
-
-        <div class="rc-slide">
-          <div class="rc-card">
-            <div class="rc-header">
-              <div class="rc-avatar">LM</div>
-              <div class="rc-meta">
-                <strong>Laura Martínez</strong>
-                <div class="rc-stars">★★★★★</div>
-              </div>
-              <svg class="rc-google" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-            </div>
-            <p class="rc-text">"Fui para recuperación postparto y quedé encantada. El ambiente es muy cómodo y cercano, te explican todo en detalle. En pocas sesiones noté una mejora enorme. ¡Gracias por tanto!"</p>
-            <span class="rc-date">hace 2 semanas</span>
-          </div>
-        </div>
-
-        <div class="rc-slide">
-          <div class="rc-card">
-            <div class="rc-header">
-              <div class="rc-avatar">CR</div>
-              <div class="rc-meta">
-                <strong>Carlos Rodríguez</strong>
-                <div class="rc-stars">★★★★★</div>
-              </div>
-              <svg class="rc-google" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-            </div>
-            <p class="rc-text">"Me lesioné el tendón de Aquiles corriendo y en FISIOSUAB lograron que volviera a entrenar en menos tiempo del esperado. Trato profesional y muy personalizado. Sin duda los mejores de Valladolid."</p>
-            <span class="rc-date">hace 3 semanas</span>
-          </div>
-        </div>
-
-        <div class="rc-slide">
-          <div class="rc-card">
-            <div class="rc-header">
-              <div class="rc-avatar">AL</div>
-              <div class="rc-meta">
-                <strong>Ana López</strong>
-                <div class="rc-stars">★★★★★</div>
-              </div>
-              <svg class="rc-google" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-            </div>
-            <p class="rc-text">"Llevaba meses con cervicalgia crónica y lo intenté con varios sitios sin éxito. Aquí, desde la primera sesión, me explicaron exactamente qué me pasaba y el tratamiento funcionó de verdad. Súper agradecida."</p>
-            <span class="rc-date">hace 1 mes</span>
-          </div>
-        </div>
-
-        <div class="rc-slide">
-          <div class="rc-card">
-            <div class="rc-header">
-              <div class="rc-avatar">IF</div>
-              <div class="rc-meta">
-                <strong>Isabel Fernández</strong>
-                <div class="rc-stars">★★★★★</div>
-              </div>
-              <svg class="rc-google" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-            </div>
-            <p class="rc-text">"Acudí durante el embarazo para aliviar los dolores de espalda y fue la mejor decisión. El trato es cercano, profesional y muy cuidado. Me sentí en todo momento segura y bien atendida."</p>
-            <span class="rc-date">hace 1 mes</span>
-          </div>
-        </div>
-
-        <div class="rc-slide">
-          <div class="rc-card">
-            <div class="rc-header">
-              <div class="rc-avatar">DG</div>
-              <div class="rc-meta">
-                <strong>David García</strong>
-                <div class="rc-stars">★★★★★</div>
-              </div>
-              <svg class="rc-google" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-            </div>
-            <p class="rc-text">"Clínica de 10. Me trataron una lumbalgia que me tenía sin poder trabajar. El plan de tratamiento fue claro desde el principio y los resultados superaron mis expectativas. Muy recomendable."</p>
-            <span class="rc-date">hace 2 meses</span>
-          </div>
-        </div>
-
-        <div class="rc-slide">
-          <div class="rc-card">
-            <div class="rc-header">
-              <div class="rc-avatar">SS</div>
-              <div class="rc-meta">
-                <strong>Sofía Sánchez</strong>
-                <div class="rc-stars">★★★★★</div>
-              </div>
-              <svg class="rc-google" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-            </div>
-            <p class="rc-text">"El tratamiento de suelo pélvico que me hicieron cambió mi calidad de vida. Explican todo con mucha delicadeza y profesionalidad. El espacio es muy íntimo y acogedor. ¡Ojalá lo hubiera descubierto antes!"</p>
-            <span class="rc-date">hace 2 meses</span>
-          </div>
-        </div>
-
-        <div class="rc-slide">
-          <div class="rc-card">
-            <div class="rc-header">
-              <div class="rc-avatar">PJ</div>
-              <div class="rc-meta">
-                <strong>Pablo Jiménez</strong>
-                <div class="rc-stars">★★★★★</div>
-              </div>
-              <svg class="rc-google" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-            </div>
-            <p class="rc-text">"Llevaba meses con una tendinopatía que no remitía. En FISIOSUAB dieron con el diagnóstico correcto y el tratamiento funcionó rápido. Volví a entrenar fútbol sin molestias. Muy profesionales."</p>
-            <span class="rc-date">hace 3 meses</span>
-          </div>
-        </div>
-
-      </div><!-- /.rc-track -->
-
-      <!-- Flechas de navegación -->
-      <button class="rc-btn rc-prev" id="rcPrev" aria-label="Reseña anterior">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
-      </button>
-      <button class="rc-btn rc-next" id="rcNext" aria-label="Siguiente reseña">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </button>
-
-      <!-- Puntos indicadores -->
-      <div class="rc-dots" id="rcDots" role="tablist" aria-label="Navegar reseñas"></div>
-      <p class="rc-counter" id="rcCounter" aria-live="polite"></p>
-
-    </div><!-- /.reviews-carousel -->
-
-  </div>
-</section>
 
 
 <!-- ============================================================
@@ -3565,6 +3183,23 @@
 
 
 <!-- ============================================================
+     RESEÑAS GOOGLE
+============================================================ -->
+<section class="reviews-section" id="resenas">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="tag"><span class="tag-dot"></span>Google Reviews</span>
+      <h2 class="section-title">Lo que dicen nuestras pacientes</h2>
+      <p class="section-sub">Más de 50 reseñas con puntuación perfecta de 5 estrellas en Google</p>
+    </div>
+    <div class="elfsight-wrap" data-aos="fade-up" data-aos-delay="100">
+      <div class="elfsight-app-476890d8-a926-4fa4-a8da-ca49015315c8" data-elfsight-app-lazy></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
      FOOTER
 ============================================================ -->
 <footer>
@@ -3615,8 +3250,8 @@
         <h5>Clínica</h5>
         <ul class="footer-links">
           <li><a href="#nosotros">Quiénes somos</a></li>
-          <li><a href="#testimonios">Testimonios</a></li>
           <li><a href="#instalaciones">Instalaciones</a></li>
+          <li><a href="#resenas">Reseñas</a></li>
           <li><a href="#" onclick="event.preventDefault();openLegalModal()">Política de privacidad</a></li>
           <li><a href="#" onclick="event.preventDefault();openLegalModal()">Aviso legal</a></li>
         </ul>
@@ -3871,90 +3506,6 @@
     overlay.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
   })();
 
-  /* ---- Reviews carousel ---- */
-  (function initReviewsCarousel() {
-    const carousel = document.getElementById('reviewsCarousel');
-    if (!carousel) return;
-
-    const track   = document.getElementById('rcTrack');
-    const btnPrev = document.getElementById('rcPrev');
-    const btnNext = document.getElementById('rcNext');
-    const dotsEl  = document.getElementById('rcDots');
-    const counter = document.getElementById('rcCounter');
-    const slides  = Array.from(track.querySelectorAll('.rc-slide'));
-    const total   = slides.length;
-    let current   = 0;
-    let autoTimer = null;
-
-    /* Build dots */
-    slides.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.className = 'rc-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('role', 'tab');
-      dot.setAttribute('aria-label', 'Reseña ' + (i + 1));
-      dot.addEventListener('click', () => goTo(i));
-      dotsEl.appendChild(dot);
-    });
-
-    function updateUI() {
-      track.style.transform = `translateX(-${current * 100}%)`;
-      dotsEl.querySelectorAll('.rc-dot').forEach((d, i) => d.classList.toggle('active', i === current));
-      btnPrev.disabled = current === 0;
-      btnNext.disabled = current === total - 1;
-      if (counter) counter.textContent = (current + 1) + ' / ' + total;
-    }
-
-    function goTo(idx) {
-      current = Math.max(0, Math.min(idx, total - 1));
-      updateUI();
-      resetAuto();
-    }
-
-    btnPrev.addEventListener('click', () => goTo(current - 1));
-    btnNext.addEventListener('click', () => goTo(current + 1));
-
-    /* Keyboard navigation */
-    carousel.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft')  goTo(current - 1);
-      if (e.key === 'ArrowRight') goTo(current + 1);
-    });
-
-    /* Touch swipe */
-    let touchStartX = 0;
-    let touchStartY = 0;
-    carousel.addEventListener('touchstart', e => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-    carousel.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      const dy = e.changedTouches[0].clientY - touchStartY;
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-        dx < 0 ? goTo(current + 1) : goTo(current - 1);
-      }
-    }, { passive: true });
-
-    /* Auto-advance every 6 s */
-    function startAuto() {
-      autoTimer = setInterval(() => {
-        goTo(current < total - 1 ? current + 1 : 0);
-      }, 6000);
-    }
-    function resetAuto() {
-      clearInterval(autoTimer);
-      startAuto();
-    }
-
-    /* Pause on hover/focus */
-    carousel.addEventListener('mouseenter', () => clearInterval(autoTimer));
-    carousel.addEventListener('mouseleave', startAuto);
-    carousel.addEventListener('focusin',    () => clearInterval(autoTimer));
-    carousel.addEventListener('focusout',   startAuto);
-
-    updateUI();
-    startAuto();
-  })();
-
   /* ---- Dynamic copyright year ---- */
   (function() {
     const el = document.getElementById('footerYear');
@@ -4081,140 +3632,6 @@
 </script>
 
 <script>
-  /* ---- Testimonials: ocultar elementos del widget + botón "Cargar menos reseñas" ---- */
-  (function() {
-    const widgetWrap = document.querySelector('.elfsight-wrap');
-    if (!widgetWrap) return;
-
-    let loadLessBtn = null;
-    let loadMoreBtnRef = null;
-    let initialReviewCount = 0;
-
-    /* ---- Ocultar elementos por contenido de texto ---- */
-    function hideByText() {
-      const all = widgetWrap.querySelectorAll('div, span, h1, h2, h3, h4, p, a');
-      all.forEach(el => {
-        const txt = (el.textContent || '').trim();
-        const ownTxt = (el.childNodes && Array.from(el.childNodes).filter(n => n.nodeType === 3).map(n => n.textContent.trim()).join(' ')) || '';
-
-        /* "What Our Customers Say" / variantes */
-        if (/^(what our customers say|lo que dicen nuestros clientes)$/i.test(ownTxt)) {
-          hideContainer(el);
-        }
-
-        /* Tarjeta resumen IA: "Based on N Google reviews" */
-        if (/based on \d+ google reviews/i.test(ownTxt)) {
-          const card = findCardAncestor(el);
-          if (card) card.style.display = 'none';
-        }
-
-        /* Resumen IA: bullets típicos en inglés */
-        if (/^(warm,?\s*empathetic|professional and (knowledgeable|caring)|highly recommended)/i.test(ownTxt)) {
-          const card = findCardAncestor(el);
-          if (card) card.style.display = 'none';
-        }
-
-        /* Badge "Free Google Reviews Widget" / "Powered by Elfsight" */
-        if (/(free google reviews widget|powered by elfsight|reviews? widget by elfsight)/i.test(txt) && el.children.length < 6) {
-          hideContainer(el);
-        }
-      });
-
-      /* Cualquier enlace a elfsight.com */
-      widgetWrap.querySelectorAll('a[href*="elfsight"]').forEach(a => {
-        const wrap = a.closest('div') || a;
-        wrap.style.display = 'none';
-      });
-    }
-
-    function hideContainer(el) {
-      el.style.display = 'none';
-    }
-
-    function findCardAncestor(el) {
-      let node = el;
-      for (let i = 0; i < 8 && node && node !== widgetWrap; i++) {
-        const cls = (node.className && typeof node.className === 'string') ? node.className : '';
-        if (/card|item|review|summary|aigc/i.test(cls)) return node;
-        node = node.parentElement;
-      }
-      return el.parentElement && el.parentElement.parentElement
-        ? el.parentElement.parentElement
-        : el.parentElement;
-    }
-
-    function findLoadMoreBtn() {
-      const buttons = widgetWrap.querySelectorAll('button, a[role="button"]');
-      for (const btn of buttons) {
-        const text = (btn.textContent || '').trim().toLowerCase();
-        if (text === 'load more' || text === 'cargar más' || text === 'cargar mas' ||
-            text === 'show more' || text === 'mostrar más' || text === 'mostrar mas') {
-          return btn;
-        }
-      }
-      return null;
-    }
-
-    function copyButtonStyles(source, target) {
-      const cs = window.getComputedStyle(source);
-      const props = ['fontSize', 'fontFamily', 'fontWeight', 'padding', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderRadius', 'background', 'backgroundColor', 'color', 'border', 'borderColor', 'borderWidth', 'borderStyle', 'lineHeight', 'letterSpacing', 'textTransform'];
-      props.forEach(p => { target.style[p] = cs[p]; });
-      target.style.cursor = 'pointer';
-      target.style.marginTop = '12px';
-    }
-
-    function ensureLoadLessBtn(loadMoreBtn) {
-      if (loadLessBtn && document.body.contains(loadLessBtn)) return loadLessBtn;
-      loadLessBtn = document.createElement('button');
-      loadLessBtn.id = 'loadLessBtn';
-      loadLessBtn.className = 'load-less-btn';
-      loadLessBtn.type = 'button';
-      loadLessBtn.textContent = 'Cargar menos reseñas';
-      copyButtonStyles(loadMoreBtn, loadLessBtn);
-      loadMoreBtn.parentNode.insertBefore(loadLessBtn, loadMoreBtn.nextSibling);
-      loadLessBtn.addEventListener('click', resetWidget);
-      return loadLessBtn;
-    }
-
-    function resetWidget() {
-      const appEl = widgetWrap.querySelector('[class*="elfsight-app-"]');
-      if (!appEl) return;
-      const parent = appEl.parentNode;
-      const className = appEl.className;
-      const lazy = appEl.hasAttribute('data-elfsight-app-lazy');
-      parent.removeChild(appEl);
-      const fresh = document.createElement('div');
-      fresh.className = className;
-      if (lazy) fresh.setAttribute('data-elfsight-app-lazy', '');
-      parent.appendChild(fresh);
-      if (loadLessBtn) loadLessBtn.classList.remove('show');
-      if (window.eapps && typeof window.eapps.scan === 'function') {
-        try { window.eapps.scan(); } catch (e) {}
-      }
-      const section = document.getElementById('testimonios');
-      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    const observer = new MutationObserver(() => {
-      hideByText();
-      const btn = findLoadMoreBtn();
-      if (btn && btn !== loadMoreBtnRef) {
-        loadMoreBtnRef = btn;
-        if (!btn.dataset.lessHandlerAttached) {
-          btn.dataset.lessHandlerAttached = 'true';
-          btn.addEventListener('click', () => {
-            const less = ensureLoadLessBtn(btn);
-            setTimeout(() => less.classList.add('show'), 400);
-          });
-        }
-      }
-    });
-    observer.observe(widgetWrap, { childList: true, subtree: true });
-    setTimeout(hideByText, 1500);
-    setTimeout(hideByText, 3000);
-    setTimeout(hideByText, 6000);
-  })();
-
   /* ---- Instagram Widget ---- */
   (function () {
     'use strict';
@@ -4375,6 +3792,48 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLegalModal();
   });
+</script>
+
+
+<!-- Elfsight Google Reviews | Untitled Google Reviews -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+
+<script>
+  /* ---- Ocultar branding de Elfsight ---- */
+  (function () {
+    var wrap = document.querySelector('.elfsight-wrap');
+    if (!wrap) return;
+
+    function hide() {
+      wrap.querySelectorAll('div, span, h1, h2, h3, h4, p, a').forEach(function (el) {
+        var txt = (el.textContent || '').trim();
+        var own = Array.from(el.childNodes)
+          .filter(function (n) { return n.nodeType === 3; })
+          .map(function (n) { return n.textContent.trim(); })
+          .join(' ');
+
+        /* Título "What Our Customers Say" generado por Elfsight */
+        if (/^(what our customers say|lo que dicen nuestros clientes)$/i.test(own)) {
+          el.style.display = 'none';
+        }
+
+        /* Badge "Powered by Elfsight" / "Free Google Reviews Widget" */
+        if (/(free google reviews widget|powered by elfsight|reviews? widget by elfsight)/i.test(txt) && el.children.length < 6) {
+          el.style.display = 'none';
+        }
+      });
+
+      /* Cualquier enlace a elfsight.com */
+      wrap.querySelectorAll('a[href*="elfsight"]').forEach(function (a) {
+        (a.closest('div') || a).style.display = 'none';
+      });
+    }
+
+    new MutationObserver(hide).observe(wrap, { childList: true, subtree: true });
+    setTimeout(hide, 1500);
+    setTimeout(hide, 3000);
+    setTimeout(hide, 6000);
+  })();
 </script>
 
 </body>

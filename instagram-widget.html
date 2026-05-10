@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Profile Widget</title>
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ============================================================
+       DEMO WRAPPER  (quita esto si lo embebas en tu web)
+    ============================================================ */
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f0f0;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #0a0a0a; }
+    }
+
+    /* ============================================================
+       WIDGET ROOT
+    ============================================================ */
+    .ig-widget {
+      --ig-grad: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      --ig-grad-border: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      --radius-card: 24px;
+      --radius-btn: 50px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-card: 0 8px 40px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+      --shadow-hover: 0 20px 60px rgba(0,0,0,.18), 0 4px 16px rgba(0,0,0,.08);
+
+      /* Light tokens */
+      --bg-card:       rgba(255,255,255,0.78);
+      --bg-stats:      rgba(245,245,247,0.7);
+      --bg-thumb:      #e8e8ed;
+      --text-primary:  #1a1a2e;
+      --text-secondary:#6e6e80;
+      --text-tertiary: #a0a0b0;
+      --border-color:  rgba(0,0,0,.07);
+      --shimmer-base:  #ececec;
+      --shimmer-shine: #f8f8f8;
+
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      border-radius: var(--radius-card);
+      background: var(--bg-card);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      transition: opacity 0.6s var(--transition), transform 0.6s var(--transition), box-shadow var(--transition);
+      will-change: transform, opacity;
+    }
+    .ig-widget.loaded {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .ig-widget:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px) scale(1.005);
+    }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      .ig-widget {
+        --bg-card:       rgba(28,28,32,0.85);
+        --bg-stats:      rgba(38,38,44,0.7);
+        --bg-thumb:      #2a2a30;
+        --text-primary:  #f0f0f5;
+        --text-secondary:#a0a0b8;
+        --text-tertiary: #606070;
+        --border-color:  rgba(255,255,255,.07);
+        --shimmer-base:  #2a2a32;
+        --shimmer-shine: #38383f;
+      }
+    }
+
+    /* ============================================================
+       GRADIENT TOP BORDER
+    ============================================================ */
+    .ig-widget::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: var(--ig-grad-border);
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+      z-index: 2;
+    }
+
+    /* ============================================================
+       HEADER BANNER
+    ============================================================ */
+    .ig-header {
+      position: relative;
+      height: 110px;
+      overflow: hidden;
+    }
+    .ig-banner {
+      width: 100%;
+      height: 100%;
+      background: var(--ig-grad);
+      opacity: 0.18;
+    }
+    @media (prefers-color-scheme: dark) {
+      .ig-banner { opacity: 0.28; }
+    }
+    .ig-banner-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,.15) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.10) 0%, transparent 50%);
+    }
+
+    /* ============================================================
+       AVATAR AREA
+    ============================================================ */
+    .ig-avatar-wrap {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+    /* Gradient ring */
+    .ig-avatar-ring {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      padding: 3px;
+      background: var(--ig-grad-border);
+      box-shadow: 0 0 0 3px var(--bg-card), 0 4px 20px rgba(188,24,136,.35);
+      transition: box-shadow var(--transition), transform var(--transition);
+      cursor: pointer;
+    }
+    .ig-avatar-ring:hover {
+      box-shadow: 0 0 0 3px var(--bg-card), 0 6px 30px rgba(188,24,136,.55);
+      transform: scale(1.05);
+    }
+    .ig-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--bg-thumb);
+    }
+    .ig-avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .ig-avatar-ring:hover img { transform: scale(1.08); }
+
+    /* Online dot */
+    .ig-online-dot {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #22c55e;
+      border: 2.5px solid var(--bg-card);
+      box-shadow: 0 0 8px rgba(34,197,94,.6);
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 8px rgba(34,197,94,.6); }
+      50%       { box-shadow: 0 0 16px rgba(34,197,94,.9); }
+    }
+
+    /* ============================================================
+       BODY
+    ============================================================ */
+    .ig-body {
+      padding: 52px 28px 0;
+      text-align: center;
+    }
+
+    /* Verified badge + username row */
+    .ig-username-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+    .ig-username {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+      transition: color var(--transition);
+    }
+    .ig-verified {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .ig-verified svg { width: 18px; height: 18px; }
+
+    .ig-realname {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .ig-bio {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      max-width: 280px;
+      margin: 0 auto 20px;
+    }
+
+    /* ============================================================
+       STATS ROW
+    ============================================================ */
+    .ig-stats {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin: 0 -28px 20px;
+      padding: 16px 28px;
+      background: var(--bg-stats);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(8px);
+    }
+    .ig-stat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      position: relative;
+      cursor: default;
+      transition: transform var(--transition);
+    }
+    .ig-stat:hover { transform: translateY(-2px); }
+    .ig-stat + .ig-stat::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 60%;
+      width: 1px;
+      background: var(--border-color);
+    }
+    .ig-stat-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      font-variant-numeric: tabular-nums;
+    }
+    .ig-stat-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ============================================================
+       THUMBNAILS
+    ============================================================ */
+    .ig-thumbs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin: 0 -28px 20px;
+      padding: 0 28px;
+    }
+    .ig-thumb {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-thumb);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .ig-thumb:hover {
+      transform: scale(1.04);
+      box-shadow: 0 8px 24px rgba(0,0,0,.18);
+      z-index: 1;
+    }
+    .ig-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .ig-thumb:hover img { transform: scale(1.08); }
+    /* Overlay on hover */
+    .ig-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(240,148,51,.6), rgba(188,24,136,.6));
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+    .ig-thumb:hover .ig-thumb-overlay { opacity: 1; }
+    .ig-thumb-overlay svg { width: 24px; height: 24px; color: #fff; }
+
+    /* ============================================================
+       CTA BUTTON
+    ============================================================ */
+    .ig-footer {
+      padding: 0 28px 28px;
+    }
+    .ig-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 24px;
+      border: none;
+      border-radius: var(--radius-btn);
+      background: var(--ig-grad);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 20px rgba(188,24,136,.4);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ig-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.18) 0%, transparent 60%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+    /* Glow ripple on hover */
+    .ig-btn::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: var(--radius-btn);
+      background: var(--ig-grad);
+      filter: blur(12px);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity var(--transition);
+    }
+    .ig-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 32px rgba(188,24,136,.55);
+    }
+    .ig-btn:hover::after { opacity: 0.6; }
+    .ig-btn:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 2px 12px rgba(188,24,136,.35);
+    }
+    .ig-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* Shimmer sweep on the button */
+    .ig-btn-shimmer {
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+      animation: btn-shimmer 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes btn-shimmer {
+      0%   { left: -60%; }
+      100% { left: 160%; }
+    }
+
+    /* ============================================================
+       SKELETON LOADING
+    ============================================================ */
+    .ig-skeleton {
+      background: linear-gradient(90deg,
+        var(--shimmer-base) 25%,
+        var(--shimmer-shine) 50%,
+        var(--shimmer-base) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease-in-out infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Skeleton avatar */
+    .ig-sk-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+    }
+    .ig-sk-line {
+      height: 12px;
+      margin: 8px auto;
+      border-radius: 6px;
+    }
+    .ig-sk-thumb {
+      aspect-ratio: 1;
+      border-radius: 12px;
+    }
+
+    .ig-skeleton-state { display: block; }
+    .ig-content-state  { display: none; }
+    .ig-widget.loaded .ig-skeleton-state { display: none; }
+    .ig-widget.loaded .ig-content-state  { display: block; }
+    .ig-widget.loaded .ig-stats          { display: flex; }
+    .ig-widget.loaded .ig-thumbs         { display: grid; }
+    .ig-widget.loaded .ig-footer         { display: block; }
+
+    /* Hide content and footer during skeleton */
+    .ig-stats, .ig-thumbs, .ig-footer { display: none; }
+
+    /* ============================================================
+       ANIMATED COUNTER helper
+    ============================================================ */
+    /* (handled via JS) */
+
+    /* ============================================================
+       FOOTER CREDIT
+    ============================================================ */
+    .ig-credit {
+      text-align: center;
+      padding-bottom: 4px;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ================================================================
+     INSTAGRAM PROFILE WIDGET
+     ─────────────────────────────────────────────────────────────────
+     Para personalizar, edita únicamente el objeto `profileData`
+     y las URLs de las imágenes en `thumbnails` (líneas ~30-55).
+================================================================ -->
+
+<article
+  class="ig-widget"
+  id="igWidget"
+  role="complementary"
+  aria-label="Perfil de Instagram de fisiosuab"
+>
+  <!-- Gradient top stripe rendered via ::before -->
+
+  <!-- ── HEADER BANNER ── -->
+  <div class="ig-header" aria-hidden="true">
+    <div class="ig-banner"></div>
+    <div class="ig-banner-pattern"></div>
+
+    <!-- Avatar (inside header so it overlaps) -->
+    <div class="ig-avatar-wrap">
+      <!-- Skeleton avatar -->
+      <div class="ig-skeleton ig-sk-avatar ig-skeleton-state"></div>
+
+      <!-- Real avatar -->
+      <div class="ig-avatar-ring ig-content-state" role="img" aria-label="Foto de perfil">
+        <div class="ig-avatar-inner">
+          <img id="igAvatar" src="" alt="Foto de perfil de fisiosuab" loading="lazy" />
+        </div>
+        <!-- Online indicator -->
+        <div class="ig-online-dot" id="igOnlineDot" title="Activo recientemente" aria-label="Activo recientemente"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BODY ── -->
+  <div class="ig-body">
+
+    <!-- Skeleton text lines -->
+    <div class="ig-skeleton-state" aria-hidden="true">
+      <div class="ig-skeleton ig-sk-line" style="width:60%"></div>
+      <div class="ig-skeleton ig-sk-line" style="width:40%; margin-bottom:16px;"></div>
+      <div class="ig-skeleton ig-sk-line" style="width:90%"></div>
+      <div class="ig-skeleton ig-sk-line" style="width:80%"></div>
+    </div>
+
+    <!-- Real text content -->
+    <div class="ig-content-state">
+      <div class="ig-username-row">
+        <span class="ig-username" id="igUsername">@usuario</span>
+        <span class="ig-verified" id="igVerified" aria-label="Cuenta verificada" title="Cuenta verificada"></span>
+      </div>
+      <p class="ig-realname" id="igRealname">Nombre Real</p>
+      <p class="ig-bio" id="igBio">Biografía del perfil</p>
+    </div>
+
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="ig-stats" role="group" aria-label="Estadísticas del perfil">
+    <div class="ig-stat" aria-label="Publicaciones">
+      <span class="ig-stat-value" id="igPosts" data-target="">0</span>
+      <span class="ig-stat-label">Posts</span>
+    </div>
+    <div class="ig-stat" aria-label="Seguidores">
+      <span class="ig-stat-value" id="igFollowers" data-target="">0</span>
+      <span class="ig-stat-label">Seguidores</span>
+    </div>
+    <div class="ig-stat" aria-label="Siguiendo">
+      <span class="ig-stat-value" id="igFollowing" data-target="">0</span>
+      <span class="ig-stat-label">Siguiendo</span>
+    </div>
+  </div>
+
+  <!-- ── THUMBNAILS ── -->
+  <div class="ig-thumbs" id="igThumbs" role="list" aria-label="Últimas publicaciones"></div>
+
+  <!-- ── CTA BUTTON ── -->
+  <div class="ig-footer">
+    <a
+      id="igBtn"
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="ig-btn"
+      aria-label="Ver perfil en Instagram"
+    >
+      <!-- Instagram icon -->
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+      </svg>
+      <span>Ver perfil en Instagram</span>
+      <div class="ig-btn-shimmer" aria-hidden="true"></div>
+    </a>
+  </div>
+
+</article>
+
+<!-- ================================================================
+     JAVASCRIPT — Configuración y lógica
+================================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ══════════════════════════════════════════════════════════════
+     ▶  EDITA AQUÍ TUS DATOS
+  ══════════════════════════════════════════════════════════════ */
+  const profileData = {
+    username:     'fisiosuab',
+    realName:     'Fisiosuab · Fisioterapia Suelo Pélvico',
+    bio:          '🌸 Especialistas en suelo pélvico en Valladolid\n📍 C/ Miguel Íscar 5, 2ºA · Valladolid\n✨ Reserva tu cita online',
+    followers:    '1.2K',
+    following:    '312',
+    posts:        '87',
+    profileImage: 'logo.png',        /* ruta o URL de la foto de perfil */
+    instagramUrl: 'https://www.instagram.com/fisiosuab/',
+    verified:     false,             /* true → muestra el tic azul       */
+    showOnline:   true,              /* true → muestra el punto verde     */
+    /* Últimas 3 publicaciones — pon tus URLs o rutas locales */
+    thumbnails: [
+      { src: 'Cabinas.png',                    alt: 'Publicación 1' },
+      { src: 'Foto%20logo.png',                alt: 'Publicación 2' },
+      { src: 'ejercicios%20con%20pesas.png',   alt: 'Publicación 3' },
+    ],
+  };
+  /* ══════════════════════════════════════════════════════════════ */
+
+  /* ── Helpers de seguridad ── */
+  function safeText(str) {
+    const d = document.createElement('div');
+    d.appendChild(document.createTextNode(String(str || '')));
+    return d.innerHTML; /* solo para innerHTML de contenido plano */
+  }
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(value || '');
+  }
+  function setAttr(id, attr, value) {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute(attr, String(value || ''));
+  }
+
+  /* ── Construir bio con saltos de línea ── */
+  function buildBio(text, container) {
+    container.textContent = '';
+    String(text || '').split('\n').forEach((line, i, arr) => {
+      container.appendChild(document.createTextNode(line));
+      if (i < arr.length - 1) container.appendChild(document.createElement('br'));
+    });
+  }
+
+  /* ── Contador animado ── */
+  function animateCounter(el, targetStr, duration) {
+    /* Si el valor tiene letras (1.2K, 120K…) simplemente lo escribe */
+    if (/[a-zA-Z]/.test(targetStr)) {
+      el.textContent = targetStr;
+      return;
+    }
+    const target = parseInt(targetStr.replace(/\D/g, ''), 10);
+    if (isNaN(target)) { el.textContent = targetStr; return; }
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      /* Ease-out cubic */
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target).toLocaleString('es-ES');
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ── Construir thumbnails ── */
+  function buildThumbs(thumbs, container) {
+    thumbs.forEach(function (thumb) {
+      const li = document.createElement('div');
+      li.className = 'ig-thumb';
+      li.setAttribute('role', 'listitem');
+      li.setAttribute('tabindex', '0');
+      li.setAttribute('aria-label', thumb.alt);
+
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.alt = String(thumb.alt || '');
+      img.src = String(thumb.src || '');
+
+      const overlay = document.createElement('div');
+      overlay.className = 'ig-thumb-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>' +
+        '<polyline points="15 3 21 3 21 9"/>' +
+        '<line x1="10" y1="14" x2="21" y2="3"/>' +
+        '</svg>';
+
+      li.appendChild(img);
+      li.appendChild(overlay);
+
+      /* Click → abre Instagram (thumbnail genérico) */
+      li.addEventListener('click', function () {
+        window.open(profileData.instagramUrl, '_blank', 'noopener,noreferrer');
+      });
+      li.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          window.open(profileData.instagramUrl, '_blank', 'noopener,noreferrer');
+        }
+      });
+
+      container.appendChild(li);
+    });
+  }
+
+  /* ── Badge verificado ── */
+  function buildVerifiedBadge(container) {
+    container.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+      '<circle cx="12" cy="12" r="10" fill="#3b82f6"/>' +
+      '<path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '</svg>';
+  }
+
+  /* ── Populate widget ── */
+  function populate() {
+    /* Textos */
+    setText('igUsername', '@' + profileData.username);
+    setText('igRealname', profileData.realName);
+    buildBio(profileData.bio, document.getElementById('igBio'));
+
+    /* Avatar */
+    const avatarEl = document.getElementById('igAvatar');
+    if (avatarEl) {
+      avatarEl.src  = String(profileData.profileImage || '');
+      avatarEl.alt  = 'Foto de perfil de ' + profileData.username;
+    }
+
+    /* Verified */
+    const verEl = document.getElementById('igVerified');
+    if (verEl) {
+      if (profileData.verified) {
+        buildVerifiedBadge(verEl);
+        verEl.style.display = 'inline-flex';
+      } else {
+        verEl.style.display = 'none';
+      }
+    }
+
+    /* Online dot */
+    const dot = document.getElementById('igOnlineDot');
+    if (dot) dot.style.display = profileData.showOnline ? 'block' : 'none';
+
+    /* Botón */
+    setAttr('igBtn', 'href', profileData.instagramUrl);
+
+    /* Thumbnails */
+    const thumbsContainer = document.getElementById('igThumbs');
+    if (thumbsContainer) buildThumbs(profileData.thumbnails || [], thumbsContainer);
+  }
+
+  /* ── Activar widget con pequeño delay para efecto skeleton ── */
+  function activate() {
+    populate();
+
+    const widget = document.getElementById('igWidget');
+    /* Mostrar contenido */
+    widget.classList.add('loaded');
+
+    /* Animaciones de contadores */
+    const counters = [
+      { id: 'igPosts',     value: profileData.posts },
+      { id: 'igFollowers', value: profileData.followers },
+      { id: 'igFollowing', value: profileData.following },
+    ];
+    counters.forEach(function (c) {
+      const el = document.getElementById(c.id);
+      if (el) animateCounter(el, c.value, 1200);
+    });
+  }
+
+  /* ── Init ── */
+  function init() {
+    /* Simula carga de 800ms para ver skeleton */
+    setTimeout(activate, 800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
+
+</body>
+</html>
