@@ -212,7 +212,7 @@
       text-transform: uppercase;
       color: var(--green-dark);
       padding: 5px 14px;
-      background: var(--green-50);
+      background: #ECEFF4;
       border-radius: var(--r-full);
       margin-bottom: 18px;
     }
@@ -917,7 +917,7 @@
     }
     .loc-detail-ico {
       width: 44px; height: 44px;
-      background: var(--green-50);
+      background: #ECEFF4;
       border-radius: var(--r-md);
       display: flex;
       align-items: center;
@@ -942,8 +942,8 @@
     .schedule {
       border-radius: var(--r-lg);
       overflow: hidden;
-      border: 1px solid var(--gray-100);
-      background: var(--gray-50);
+      border: 1px solid #E4E6EB;
+      background: #F6F7F9;
       margin-bottom: 32px;
     }
     .sch-row {
@@ -951,12 +951,11 @@
       justify-content: space-between;
       align-items: center;
       padding: 13px 20px;
-      border-bottom: 1px solid var(--gray-100);
+      border-bottom: 1px solid #E4E6EB;
       transition: background var(--t) var(--ease);
     }
     .sch-row:last-child { border-bottom: none; }
     .sch-row:hover { background: var(--white); }
-    .sch-row.today-row { background: var(--green-100); }
     .sch-day {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 14px;
@@ -1742,8 +1741,8 @@
       gap: 16px;
       padding: 18px 20px;
       border-radius: var(--r-lg);
-      border: 1px solid var(--gray-100);
-      background: var(--gray-50);
+      border: 1px solid #E4E6EB;
+      background: #F6F7F9;
       text-decoration: none;
       transition: border-color var(--t) var(--ease),
                   box-shadow var(--t) var(--ease),
@@ -1765,10 +1764,10 @@
       flex-shrink: 0;
       transition: background var(--t) var(--ease);
     }
-    .contact-channel-ico.ico-green { background: var(--green-50); }
-    .contact-channel-ico.ico-blue  { background: var(--green-50); }
-    .contact-channel:hover .contact-channel-ico.ico-green { background: var(--green-100); }
-    .contact-channel:hover .contact-channel-ico.ico-blue  { background: var(--green-100); }
+    .contact-channel-ico.ico-green { background: #ECEFF4; }
+    .contact-channel-ico.ico-blue  { background: #ECEFF4; }
+    .contact-channel:hover .contact-channel-ico.ico-green { background: #DDE3EC; }
+    .contact-channel:hover .contact-channel-ico.ico-blue  { background: #DDE3EC; }
     .contact-channel-ico svg { width: 20px; height: 20px; }
     .contact-channel-ico.ico-green svg { color: var(--blue); }
     .contact-channel-ico.ico-blue  svg { color: var(--blue); }
@@ -3165,8 +3164,8 @@
             <span class="sch-day" role="cell">Martes</span>
             <span class="sch-time" role="cell">9:00–14:00 &nbsp;|&nbsp; 16:00–21:00</span>
           </div>
-          <div class="sch-row today-row" role="row" id="wednesdayRow">
-            <span class="sch-day" role="cell">Miércoles <span class="today-badge" id="todayBadge" style="display:none">HOY</span></span>
+          <div class="sch-row" role="row">
+            <span class="sch-day" role="cell">Miércoles</span>
             <span class="sch-time closed" role="cell">Cerrado</span>
           </div>
           <div class="sch-row" role="row">
@@ -3643,25 +3642,6 @@
     if (mobileMenu.classList.contains('open')) { closeMenu(); }
   });
 
-  /* ---- Highlight today's schedule row ---- */
-  (function highlightToday() {
-    const days = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-    const today = new Date().getDay();
-    const todayName = days[today];
-    const rows = document.querySelectorAll('.sch-row');
-
-    rows.forEach(row => {
-      const dayEl = row.querySelector('.sch-day');
-      const rowText = dayEl.textContent.trim().toLowerCase();
-      if (rowText.startsWith(todayName)) {
-        row.classList.add('today-row');
-        const badge = row.querySelector('.today-badge');
-        if (badge) badge.style.display = 'inline-block';
-      } else {
-        row.classList.remove('today-row');
-      }
-    });
-  })();
 
   /* ---- Smooth scroll for anchor links ---- */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
