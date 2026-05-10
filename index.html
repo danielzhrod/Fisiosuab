@@ -1134,7 +1134,9 @@
       border-radius: var(--r-lg);
       overflow: hidden;
       position: relative;
-      cursor: pointer;
+      cursor: default;
+      -webkit-user-select: none;
+      user-select: none;
     }
     .g-item:nth-child(1) { grid-row: 1 / 3; }
     .g-item img {
@@ -2231,6 +2233,265 @@
       .contact-form-card { padding: 28px 22px; }
       .form-row { grid-template-columns: 1fr; }
     }
+
+    /* =============================================
+       INSTAGRAM SECTION
+    ============================================= */
+    .ig-section {
+      padding: var(--sp) 0;
+      background: var(--gray-50);
+    }
+    .ig-section-inner {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 72px;
+      align-items: center;
+    }
+    .ig-section-content .tag  { margin-bottom: 16px; }
+    .ig-section-content .section-title { margin-bottom: 16px; }
+    .ig-section-content .section-sub   { margin-bottom: 32px; }
+    .ig-section-features {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+    .ig-section-feat {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .ig-section-feat-ico {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: var(--green-50);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ig-section-feat-ico svg { width: 18px; height: 18px; color: var(--blue); }
+    .ig-section-feat-body strong { display: block; font-size: 15px; color: var(--text); margin-bottom: 2px; }
+    .ig-section-feat-body span   { font-size: 13.5px; color: var(--text-sec); line-height: 1.55; }
+    .ig-section-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 26px;
+      border-radius: var(--r-full);
+      background: linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+      box-shadow: 0 4px 20px rgba(188,24,136,.35);
+    }
+    .ig-section-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(188,24,136,.5);
+    }
+    .ig-section-cta svg { width: 16px; height: 16px; }
+
+    /* ── widget card ── */
+    .ig-widget {
+      --ig-grad:        linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+      --ig-grad-border: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+      --ig-r-card:   24px;
+      --ig-r-btn:    50px;
+      --ig-tr:       .35s cubic-bezier(.4,0,.2,1);
+      --ig-bg:       rgba(255,255,255,.88);
+      --ig-bg-stats: rgba(245,245,247,.8);
+      --ig-bg-thumb: #e8e8ed;
+      --ig-txt:      #1a1a2e;
+      --ig-txt-sec:  #6e6e80;
+      --ig-txt-ter:  #a0a0b0;
+      --ig-border:   rgba(0,0,0,.07);
+      --ig-sh-base:  #ececec;
+      --ig-sh-shine: #f8f8f8;
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      border-radius: var(--ig-r-card);
+      background: var(--ig-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      box-shadow: 0 8px 40px rgba(0,0,0,.11), 0 2px 8px rgba(0,0,0,.05);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px) scale(.98);
+      transition: opacity .6s var(--ig-tr), transform .6s var(--ig-tr), box-shadow var(--ig-tr);
+      will-change: transform, opacity;
+    }
+    .ig-widget.loaded {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .ig-widget:hover {
+      box-shadow: 0 20px 60px rgba(0,0,0,.16), 0 4px 16px rgba(0,0,0,.07);
+      transform: translateY(-4px) scale(1.005);
+    }
+    .ig-widget::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: var(--ig-grad-border);
+      border-radius: var(--ig-r-card) var(--ig-r-card) 0 0;
+      z-index: 2;
+    }
+    .ig-hdr { position: relative; height: 110px; overflow: hidden; }
+    .ig-banner { width: 100%; height: 100%; background: var(--ig-grad); opacity: .18; }
+    .ig-banner-pattern {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 20% 50%,rgba(255,255,255,.15) 0%,transparent 60%),
+                        radial-gradient(circle at 80% 20%,rgba(255,255,255,.10) 0%,transparent 50%);
+    }
+    .ig-av-wrap {
+      position: absolute; bottom: -40px; left: 50%;
+      transform: translateX(-50%); z-index: 3;
+    }
+    .ig-av-ring {
+      width: 96px; height: 96px; border-radius: 50%; padding: 3px;
+      background: var(--ig-grad-border);
+      box-shadow: 0 0 0 3px var(--ig-bg), 0 4px 20px rgba(188,24,136,.35);
+      transition: box-shadow var(--ig-tr), transform var(--ig-tr);
+      cursor: pointer;
+    }
+    .ig-av-ring:hover { box-shadow: 0 0 0 3px var(--ig-bg), 0 6px 30px rgba(188,24,136,.55); transform: scale(1.05); }
+    .ig-av-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      overflow: hidden; background: var(--ig-bg-thumb);
+    }
+    .ig-av-inner img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+    .ig-av-ring:hover img { transform: scale(1.08); }
+    .ig-online {
+      position: absolute; bottom: 4px; right: 4px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #22c55e; border: 2.5px solid var(--ig-bg);
+      box-shadow: 0 0 8px rgba(34,197,94,.6);
+      animation: ig-pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes ig-pulse {
+      0%,100% { box-shadow: 0 0 8px rgba(34,197,94,.6); }
+      50%      { box-shadow: 0 0 16px rgba(34,197,94,.9); }
+    }
+    .ig-body { padding: 52px 28px 0; text-align: center; }
+    .ig-urow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 2px; }
+    .ig-uname {
+      font-size: 17px; font-weight: 700;
+      color: var(--ig-txt); letter-spacing: -.3px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .ig-verified { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; flex-shrink: 0; }
+    .ig-verified svg { width: 18px; height: 18px; }
+    .ig-rname { font-size: 13px; font-weight: 500; color: var(--ig-txt-sec); margin-bottom: 10px; }
+    .ig-bio   { font-size: 13.5px; line-height: 1.55; color: var(--ig-txt-sec); max-width: 280px; margin: 0 auto 20px; }
+    .ig-stats-row {
+      display: flex; justify-content: center;
+      margin: 0 -28px 20px; padding: 16px 28px;
+      background: var(--ig-bg-stats);
+      border-top: 1px solid var(--ig-border); border-bottom: 1px solid var(--ig-border);
+    }
+    .ig-stat {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+      position: relative; cursor: default; transition: transform var(--ig-tr);
+    }
+    .ig-stat:hover { transform: translateY(-2px); }
+    .ig-stat + .ig-stat::before {
+      content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      height: 60%; width: 1px; background: var(--ig-border);
+    }
+    .ig-stat-val {
+      font-size: 18px; font-weight: 800; color: var(--ig-txt);
+      letter-spacing: -.5px; font-variant-numeric: tabular-nums;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .ig-stat-lbl { font-size: 11px; font-weight: 500; color: var(--ig-txt-ter); text-transform: uppercase; letter-spacing: .5px; }
+    .ig-thumbs-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 6px; margin: 0 -28px 20px; padding: 0 28px;
+    }
+    .ig-thumb {
+      position: relative; aspect-ratio: 1; border-radius: 12px;
+      overflow: hidden; background: var(--ig-bg-thumb); cursor: default;
+      transition: transform var(--ig-tr), box-shadow var(--ig-tr);
+      /* Bloquea cualquier apertura nativa de imagen */
+      -webkit-user-select: none; user-select: none;
+      pointer-events: auto;
+    }
+    .ig-thumb:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(0,0,0,.18); z-index: 1; }
+    .ig-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+    .ig-thumb:hover img { transform: scale(1.08); }
+    .ig-thumb-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg,rgba(240,148,51,.6),rgba(188,24,136,.6));
+      opacity: 0; display: flex; align-items: center; justify-content: center;
+      transition: opacity .3s ease;
+    }
+    .ig-thumb:hover .ig-thumb-ov { opacity: 1; }
+    /* Sin icono de apertura — overlay puramente decorativo */
+    .ig-thumb-ov svg { display: none; }
+    .ig-ftr { padding: 0 28px 28px; }
+    .ig-cta-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px 24px;
+      border: none; border-radius: var(--ig-r-btn);
+      background: var(--ig-grad); color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px; font-weight: 700; letter-spacing: .2px;
+      text-decoration: none; cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform var(--ig-tr), box-shadow var(--ig-tr);
+      box-shadow: 0 4px 20px rgba(188,24,136,.4);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ig-cta-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg,rgba(255,255,255,.18) 0%,transparent 60%);
+      border-radius: inherit; pointer-events: none;
+    }
+    .ig-cta-btn::after {
+      content: ''; position: absolute; inset: -2px; border-radius: var(--ig-r-btn);
+      background: var(--ig-grad); filter: blur(12px); opacity: 0; z-index: -1;
+      transition: opacity var(--ig-tr);
+    }
+    .ig-cta-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 32px rgba(188,24,136,.55); }
+    .ig-cta-btn:hover::after { opacity: .6; }
+    .ig-cta-btn:active { transform: scale(.98); }
+    .ig-cta-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .ig-btn-sweep {
+      position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+      background: linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+      animation: ig-sweep 3s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes ig-sweep { 0% { left:-60%; } 100% { left:160%; } }
+
+    /* skeleton */
+    .ig-skel {
+      background: linear-gradient(90deg,var(--ig-sh-base) 25%,var(--ig-sh-shine) 50%,var(--ig-sh-base) 75%);
+      background-size: 200% 100%;
+      animation: ig-shimmer 1.4s ease-in-out infinite; border-radius: 8px;
+    }
+    @keyframes ig-shimmer { 0% { background-position:200% 0; } 100% { background-position:-200% 0; } }
+    .ig-sk-av   { width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 12px; }
+    .ig-sk-line { height: 12px; margin: 8px auto; border-radius: 6px; }
+    .ig-sk-th   { aspect-ratio: 1; border-radius: 12px; }
+    .ig-s-state { display: block; }
+    .ig-c-state  { display: none; }
+    .ig-widget.loaded .ig-s-state   { display: none; }
+    .ig-widget.loaded .ig-c-state   { display: block; }
+    .ig-widget.loaded .ig-stats-row { display: flex; }
+    .ig-widget.loaded .ig-thumbs-grid { display: grid; }
+    .ig-widget.loaded .ig-ftr       { display: block; }
+    .ig-stats-row, .ig-thumbs-grid, .ig-ftr { display: none; }
+
+    @media (max-width: 960px) {
+      .ig-section-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .ig-widget { max-width: 420px; margin: 0 auto; }
+    }
   </style>
 </head>
 <body>
@@ -2275,6 +2536,7 @@
         <li><a href="#instalaciones">Instalaciones</a></li>
         <li><a href="#ubicacion">Ubicación</a></li>
         <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#instagram">Instagram</a></li>
         <li>
           <a href="tel:+34603926954" class="nav-cta-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -2301,6 +2563,7 @@
   <a href="#instalaciones" class="mobile-link">Instalaciones</a>
   <a href="#ubicacion" class="mobile-link">Ubicación</a>
   <a href="#contacto" class="mobile-link">Contacto</a>
+  <a href="#instagram" class="mobile-link">Instagram</a>
   <a href="tel:+34603926954" class="btn btn-green" style="margin-top:8px">603 92 69 54</a>
 </div>
 
@@ -3027,15 +3290,7 @@
   </div>
 </section>
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada de imagen">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-    </svg>
-  </button>
-  <img class="lightbox-img" id="lightboxImg" src="" alt="Imagen ampliada de instalaciones">
-</div>
+<!-- Lightbox eliminado — imágenes decorativas sin apertura -->
 
 
 <!-- ============================================================
@@ -3153,28 +3408,157 @@
 
 
 <!-- ============================================================
-     FINAL CTA
+     INSTAGRAM
 ============================================================ -->
-<section class="cta-section" aria-label="Llamada a la acción">
-  <div class="cta-glow-a" aria-hidden="true"></div>
-  <div class="cta-glow-b" aria-hidden="true"></div>
+<section class="ig-section" id="instagram">
   <div class="container">
-    <div class="cta-inner" data-aos="fade-up">
-      <span class="tag" style="color:rgba(255,255,255,.8);background:rgba(255,255,255,.12)">
-        <span class="tag-dot" style="background:var(--green)"></span>
-        Empieza hoy
-      </span>
-      <h2>¿Listo para recuperar tu bienestar?</h2>
-      <p>Da el primer paso. Reserva tu valoración inicial y descubre cómo podemos ayudarte a vivir sin dolor y con plena calidad de vida.</p>
-      <div class="cta-btns">
-        <a href="tel:+34603926954" class="btn btn-green">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16z"/>
+    <div class="ig-section-inner">
+
+      <!-- Contenido izquierda -->
+      <div class="ig-section-content" data-aos="fade-right">
+        <span class="tag"><span class="tag-dot"></span>Instagram</span>
+        <h2 class="section-title">Síguenos en Instagram</h2>
+        <p class="section-sub">
+          Consejos diarios sobre suelo pélvico, ejercicios, embarazo y postparto.
+          Únete a nuestra comunidad y cuida tu salud cada día.
+        </p>
+
+        <div class="ig-section-features">
+          <div class="ig-section-feat">
+            <div class="ig-section-feat-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
+            <div class="ig-section-feat-body">
+              <strong>Publicaciones diarias</strong>
+              <span>Contenido educativo sobre salud del suelo pélvico, ejercicios y bienestar.</span>
+            </div>
+          </div>
+          <div class="ig-section-feat">
+            <div class="ig-section-feat-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="ig-section-feat-body">
+              <strong>Comunidad activa</strong>
+              <span>Más de 1.200 personas que ya cuidan su salud con nosotras cada día.</span>
+            </div>
+          </div>
+          <div class="ig-section-feat">
+            <div class="ig-section-feat-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="ig-section-feat-body">
+              <strong>Consejos de expertas</strong>
+              <span>Fisioterapeutas especializadas comparten conocimiento real y cercano.</span>
+            </div>
+          </div>
+        </div>
+
+        <a
+          href="https://www.instagram.com/fisiosuab/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ig-section-cta"
+          aria-label="Seguir a fisiosuab en Instagram"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
           </svg>
-          Reservar valoración — 603 92 69 54
+          Seguir en Instagram
         </a>
-        <a href="#servicios" class="btn btn-white">Ver servicios</a>
       </div>
+
+      <!-- Widget card derecha -->
+      <div data-aos="fade-left" data-aos-delay="100">
+        <article
+          class="ig-widget"
+          id="igWidget"
+          role="complementary"
+          aria-label="Perfil de Instagram de fisiosuab"
+        >
+          <!-- Gradient top stripe via ::before -->
+
+          <!-- HEADER -->
+          <div class="ig-hdr" aria-hidden="true">
+            <div class="ig-banner"></div>
+            <div class="ig-banner-pattern"></div>
+            <div class="ig-av-wrap">
+              <!-- Skeleton avatar -->
+              <div class="ig-skel ig-sk-av ig-s-state"></div>
+              <!-- Real avatar -->
+              <div class="ig-av-ring ig-c-state" role="img" aria-label="Foto de perfil de fisiosuab">
+                <div class="ig-av-inner">
+                  <img id="igAvatar" src="" alt="Foto de perfil de fisiosuab" loading="lazy" />
+                </div>
+                <div class="ig-online" id="igOnline" title="Activo recientemente" aria-label="Activo recientemente"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BODY -->
+          <div class="ig-body">
+            <!-- Skeleton lines -->
+            <div class="ig-s-state" aria-hidden="true">
+              <div class="ig-skel ig-sk-line" style="width:60%"></div>
+              <div class="ig-skel ig-sk-line" style="width:40%;margin-bottom:16px"></div>
+              <div class="ig-skel ig-sk-line" style="width:90%"></div>
+              <div class="ig-skel ig-sk-line" style="width:80%"></div>
+            </div>
+            <!-- Real content -->
+            <div class="ig-c-state">
+              <div class="ig-urow">
+                <span class="ig-uname" id="igUsername">@fisiosuab</span>
+                <span class="ig-verified" id="igVerified" aria-label="Cuenta verificada"></span>
+              </div>
+              <p class="ig-rname" id="igRealname">Fisiosuab · Fisioterapia Suelo Pélvico</p>
+              <p class="ig-bio"  id="igBio">🌸 Especialistas en suelo pélvico en Valladolid<br>📍 Pl. Juan Pablo II, 4, 47015 Valladolid<br>✨ Reserva tu cita online</p>
+            </div>
+          </div>
+
+          <!-- STATS -->
+          <div class="ig-stats-row" role="group" aria-label="Estadísticas del perfil">
+            <div class="ig-stat" aria-label="Publicaciones">
+              <span class="ig-stat-val" id="igPosts">0</span>
+              <span class="ig-stat-lbl">Posts</span>
+            </div>
+            <div class="ig-stat" aria-label="Seguidores">
+              <span class="ig-stat-val" id="igFollowers">0</span>
+              <span class="ig-stat-lbl">Seguidores</span>
+            </div>
+            <div class="ig-stat" aria-label="Siguiendo">
+              <span class="ig-stat-val" id="igFollowing">0</span>
+              <span class="ig-stat-lbl">Siguiendo</span>
+            </div>
+          </div>
+
+          <!-- THUMBNAILS -->
+          <div class="ig-thumbs-grid" id="igThumbs" role="list" aria-label="Últimas publicaciones"></div>
+
+          <!-- CTA BUTTON -->
+          <div class="ig-ftr">
+            <a
+              id="igCtaBtn"
+              href="https://www.instagram.com/fisiosuab/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ig-cta-btn"
+              aria-label="Ver perfil completo en Instagram"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+              <span>Ver perfil en Instagram</span>
+              <div class="ig-btn-sweep" aria-hidden="true"></div>
+            </a>
+          </div>
+        </article>
+      </div>
+
     </div>
   </div>
 </section>
@@ -3434,32 +3818,14 @@
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
 
-  /* ---- Lightbox ---- */
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxClose = document.getElementById('lightboxClose');
-
+  /* Lightbox eliminado — las imágenes de instalaciones son decorativas */
   document.querySelectorAll('.g-item[data-lightbox]').forEach(item => {
-    item.addEventListener('click', () => {
-      lightboxImg.src = item.dataset.lightbox;
-      lightboxImg.alt = item.querySelector('img').alt;
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    });
+    item.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); });
   });
 
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-    lightboxImg.src = '';
-  }
-
-  lightboxClose.addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-  /* Unified Escape handler: lightbox takes priority, then mobile menu */
+  /* Escape handler: solo gestiona el menú móvil */
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
-    if (lightbox.classList.contains('open')) { closeLightbox(); return; }
     if (mobileMenu.classList.contains('open')) { closeMenu(); }
   });
 
@@ -3847,6 +4213,151 @@
     setTimeout(hideByText, 1500);
     setTimeout(hideByText, 3000);
     setTimeout(hideByText, 6000);
+  })();
+
+  /* ---- Instagram Widget ---- */
+  (function () {
+    'use strict';
+
+    /* ── Datos del perfil — edita aquí ── */
+    var igData = {
+      username:     'fisiosuab',
+      realName:     'Fisiosuab · Fisioterapia Suelo Pélvico',
+      verified:     false,
+      showOnline:   true,
+      followers:    '1.2K',
+      following:    '312',
+      posts:        '87',
+      profileImage: 'logo.png',
+      instagramUrl: 'https://www.instagram.com/fisiosuab/',
+      thumbnails: [
+        { src: 'Cabinas.png',                  alt: 'Cabinas privadas' },
+        { src: 'Foto%20logo.png',              alt: 'Clínica Fisiosuab' },
+        { src: 'ejercicios%20con%20pesas.png', alt: 'Ejercicios con pesas' },
+      ],
+    };
+
+    /* ── Helpers ── */
+    function setText(id, val) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = String(val || '');
+    }
+
+    /* ── Contador animado ── */
+    function animateCounter(el, targetStr, duration) {
+      if (/[a-zA-Z]/.test(targetStr)) { el.textContent = targetStr; return; }
+      var target = parseInt(targetStr.replace(/\D/g, ''), 10);
+      if (isNaN(target)) { el.textContent = targetStr; return; }
+      var start = performance.now();
+      function step(now) {
+        var p = Math.min((now - start) / duration, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(e * target).toLocaleString('es-ES');
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    /* ── Miniaturas — puramente decorativas, sin apertura ni redirección ── */
+    function buildThumbs(thumbs, container) {
+      thumbs.forEach(function (th) {
+        var item = document.createElement('div');
+        item.className = 'ig-thumb';
+        /* Sin role interactivo ni tabindex: elemento visual, no accionable */
+        item.setAttribute('aria-hidden', 'true');
+
+        var img = document.createElement('img');
+        img.loading = 'lazy';
+        img.alt = '';               /* vacío: decorativa, no necesita descripción */
+        img.draggable = false;      /* evita arrastre nativo */
+        img.src = String(th.src || '');
+
+        /* Bloquea apertura nativa al hacer clic sobre la imagen */
+        img.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+
+        /* Overlay decorativo: gradiente hover sin icono de apertura */
+        var ov = document.createElement('div');
+        ov.className = 'ig-thumb-ov';
+        ov.setAttribute('aria-hidden', 'true');
+
+        /* Bloquea cualquier burbujeo de click en el contenedor */
+        item.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+
+        item.appendChild(img);
+        item.appendChild(ov);
+        container.appendChild(item);
+      });
+    }
+
+    /* ── Poblar y activar ── */
+    function activate() {
+      var widget = document.getElementById('igWidget');
+      if (!widget) return;
+
+      /* Textos */
+      setText('igUsername', '@' + igData.username);
+      setText('igRealname', igData.realName);
+
+      /* Avatar */
+      var av = document.getElementById('igAvatar');
+      if (av) { av.src = igData.profileImage; av.alt = 'Foto de perfil de ' + igData.username; }
+
+      /* Verificado */
+      var ver = document.getElementById('igVerified');
+      if (ver) {
+        if (igData.verified) {
+          ver.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#3b82f6"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          ver.style.display = 'inline-flex';
+        } else {
+          ver.style.display = 'none';
+        }
+      }
+
+      /* Online dot */
+      var dot = document.getElementById('igOnline');
+      if (dot) dot.style.display = igData.showOnline ? 'block' : 'none';
+
+      /* Miniaturas */
+      var thumbsEl = document.getElementById('igThumbs');
+      if (thumbsEl) buildThumbs(igData.thumbnails, thumbsEl);
+
+      /* Mostrar widget */
+      widget.classList.add('loaded');
+
+      /* Contadores animados */
+      [
+        { id: 'igPosts',     val: igData.posts },
+        { id: 'igFollowers', val: igData.followers },
+        { id: 'igFollowing', val: igData.following },
+      ].forEach(function (c) {
+        var el = document.getElementById(c.id);
+        if (el) animateCounter(el, c.val, 1200);
+      });
+    }
+
+    /* ── IntersectionObserver: activa solo al entrar en viewport ── */
+    var widget = document.getElementById('igWidget');
+    if (widget) {
+      if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              setTimeout(activate, 600);
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.15 });
+        obs.observe(widget);
+      } else {
+        setTimeout(activate, 800);
+      }
+    }
   })();
 
   /* ---- Legal Modal ---- */
