@@ -1367,6 +1367,10 @@
         font-weight: 800;
         letter-spacing: -.03em;
       }
+      /* Mantener blanco al hacer scroll — sobreescribe reglas globales */
+      .navbar.scrolled .nav-logo-name { color: #fff; }
+      .navbar.scrolled .nav-hamburger span { background: #fff; }
+      .navbar.scrolled .nav-hamburger:hover { background: rgba(255,255,255,.15); }
       .nav-hamburger span { background: #fff; }
       .nav-hamburger:hover { background: rgba(255,255,255,.15); }
 
